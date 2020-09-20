@@ -4,21 +4,17 @@ const userModel = require('../models/users');
 async function HandleMessage(context) {
   await context.sendText('Welcome to Bottender');
 }
+
 async function HandleFollow(context) {
   const userId = context.event.follow.userId;
 
   context.getUserProfile(userId)
     .then(member => {
-      const {displayName, language, pictureUrl, statusMessage} = member;
+      member.active = true;
 
       userModel.getUser(userId)
         .then((user) => {
-          if ( user == null ){
-            return userModel.createUser(userId, displayName, language, pictureUrl, statusMessage)
-          }
-          
-          member.active = true;
-          return userModel.updateUser(userId, member)
+          return user == null ? userModel.createUser(member) : userModel.updateUser(userId, member)
         })
         .then((users) => {
           console.log(users[0]);

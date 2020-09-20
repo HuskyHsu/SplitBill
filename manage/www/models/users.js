@@ -11,14 +11,8 @@ knex(TABLE_NAME).columnInfo().then((cols) => {
     columns = Object.keys(cols)
 })
 
-createUser = (userId, displayName, language, pictureUrl, statusMessage) => {
-    return knex(TABLE_NAME).insert({
-        userId: userId,
-        displayName: displayName,
-        language: language,
-        pictureUrl: pictureUrl,
-        statusMessage: statusMessage
-    }).returning(columns)
+createUser = (member) => {
+    return knex(TABLE_NAME).insert(member).returning(columns)
 }
 
 getUser = (userId, attri = columns) => {
