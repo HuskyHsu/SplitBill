@@ -1,18 +1,29 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('users', function(table) {
-        table.increments();
-        table.string('userId').notNullable();
+        table.string('userId').primary();
         table.string('displayName').notNullable();
-        table.string('language').notNullable();
         table.string('pictureUrl').notNullable();
         table.string('statusMessage');
-        table.boolean('active').defaultTo(true);
+        table.string('language');
+        table.boolean('active');
         
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now());
-
-        table.unique('userId');
+      })
+      .createTable('crowds', function(table) {
+        table.string('id').primary();
+        table.enu('type', ['group', 'room']);
+        table.string('groupName');
+        table.string('pictureUrl');
+        table.boolean('active');
+        
+        table.timestamp('created_at').defaultTo(knex.fn.now());
+        table.timestamp('updated_at').defaultTo(knex.fn.now());
+      })
+      .createTable('userJoin', function(table) {
+        table.string('userId').notNullable().references('users.userId');
+        table.string('crowdId').notNullable().references('crowds.id');
       })
 };
 
