@@ -31,11 +31,28 @@ async function HandleUnfollow(context) {
     })
 }
 
+async function HandleJoin(context) {
+  const type = context.event.join.type;
+  const id = type === 'group' ? context.event.join.groupId : context.event.join.roomId;
+
+  console.log(type, id);
+}
+
+async function HandleLeave(context) {
+  const type = context.event.leave.type;
+  const id = type === 'group' ? context.event.leave.groupId : context.event.leave.roomId;
+
+  console.log(type, id);
+}
+
 module.exports = async function App() {
   return router([
     line.message(HandleMessage),
 
     line.follow(HandleFollow),
     line.unfollow(HandleUnfollow),
+
+    line.join(HandleJoin),
+    line.leave(HandleLeave),
   ]);
 }
