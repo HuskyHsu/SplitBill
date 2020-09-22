@@ -61,7 +61,9 @@ async function HandleLeave(context) {
   const type = context.event.leave.type;
   const id = type === 'group' ? context.event.leave.groupId : context.event.leave.roomId;
 
-  console.log(type, id);
+  return crowdModel.update(id, {active: false}).then((result) => {
+    console.log(result[0]);
+  })
 }
 
 module.exports = async function App() {
