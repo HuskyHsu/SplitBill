@@ -1,5 +1,8 @@
 const { router, line } = require('bottender/router');
 const userModel = require('../models/users');
+const crowdModel = require('../models/crowds');
+
+var rp = require('request-promise');
 
 async function HandleMessage(context) {
   await context.sendText('Welcome to Bottender');
@@ -34,8 +37,24 @@ async function HandleUnfollow(context) {
 async function HandleJoin(context) {
   const type = context.event.join.type;
   const id = type === 'group' ? context.event.join.groupId : context.event.join.roomId;
-
   console.log(type, id);
+  rp({url: `https://api.line.me/v2/bot/${type}/${id}/summary`, headers: {'Authorization': `Bearer ${process.env.LINE_ACCESS_TOKEN}`}})
+    .then(function (info) {
+      console.log(info);
+      return crowdModel.create({
+        id:id,
+        type: type,
+        groupName: info.groupName,
+        pictureUrl: info.pictureUrl,
+        active: true
+      })
+    })
+    .then((result) => {
+      console.log(result[0]);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
 }
 
 async function HandleLeave(context) {

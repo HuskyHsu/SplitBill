@@ -24,6 +24,8 @@ exports.up = function(knex) {
       .createTable('userJoin', function(table) {
         table.string('userId').notNullable().references('users.userId');
         table.string('crowdId').notNullable().references('crowds.id');
+
+        table.unique(['userId', 'crowdId'])
       })
 };
 
