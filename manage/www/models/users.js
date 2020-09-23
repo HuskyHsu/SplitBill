@@ -1,8 +1,4 @@
-// const {databaseConfig} = require("../config/config")
-const knex = require('knex')({
-  client: 'pg',
-  connection: "postgresql://postgres:pass@localhost:5432/my_db"
-});
+const knex = require('../models/db')
 
 const TABLE_NAME = 'users'
 
@@ -20,6 +16,7 @@ getUser = (userId, attri = columns) => {
 }
 
 updateUser = (userId, updateObj) => {
+    updateObj.updated_at = new Date();
     return knex(TABLE_NAME).where({userId: userId}).update(updateObj).returning(columns)
 }
 
