@@ -10,6 +10,7 @@
     "ngrok": "npx ngrok http 5000 -region au"
   },
   "dependencies": {
+    "@line/bot-sdk": "^7.1.0",
     "bottender": "1.4.10",
     "eslint": "7.9.0",
     "eslint-config-prettier": "6.11.0",
