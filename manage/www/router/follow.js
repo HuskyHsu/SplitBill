@@ -4,7 +4,7 @@ const userModel = require('../models/users');
 async function HandleFollow(context) {
   const userId = context.event.follow.userId;
 
-  context.getUserProfile(userId)
+  return context.getUserProfile(userId)
     .then(member => {
       member.active = true;
 
@@ -21,7 +21,7 @@ async function HandleFollow(context) {
 async function HandleUnfollow(context) {
   const userId = context.event.unfollow.userId;
 
-  userModel.updateUser(userId, {active: false})
+  return userModel.updateUser(userId, {active: false})
     .then((users) => {
       console.log(users[0]);
     })
