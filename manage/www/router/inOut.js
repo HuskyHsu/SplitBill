@@ -1,33 +1,28 @@
 const { line } = require('bottender/router');
 const crowdModel = require('../models/crowds');
 const client = require('../models/line');
-// var rp = require('request-promise');
 
 async function HandleJoin(context) {
   const type = context.event.join.type;
-  const id = type === 'group' ? context.event.join.groupId : context.event.join.roomId;
+  const crowdId = type === 'group' ? context.event.join.groupId : context.event.join.roomId;
 
-  return client.getGroupSummary(id)
-    .then((info) => {
-      return crowdModel.get(id)
-        .then((crowd) => {
-          if (crowd == null) {
-            return crowdModel.create({
-              id:id,
-              type: type,
-              groupName: info.groupName,
-              pictureUrl: info.pictureUrl,
-              active: true
-            })
-          } else {
-            return crowdModel.update(id, {
-              type: type,
-              groupName: info.groupName,
-              pictureUrl: info.pictureUrl,
-              active: true
-            })
-          }
-        })
+  let info = {
+    id: crowdId,
+    type: type,
+    active: true
+  }
+
+  if (type === 'group') {
+    const summary = await client.getGroupSummary(crowdId);
+    info = {...info, ...summary}
+  }
+
+  return crowdModel.get(crowdId)
+    .then((crowd) => {
+      if (crowd == null) {
+        return crowdModel.create(info)
+      }
+      return crowdModel.update(crowdId, info)
     })
     .then((result) => {
       console.log(result[0]);

@@ -1,13 +1,7 @@
-// bot join or leave
-// add group or room
-
-
-// member join or leave
-// add member of group or room
 let _ = require('lodash');
 const knex = require('../models/db')
 
-const TABLE_NAME = 'crowds'
+const TABLE_NAME = 'userJoin'
 
 let columns = null
 knex(TABLE_NAME).columnInfo().then((cols) => {
@@ -18,8 +12,8 @@ create = (join) => {
     return knex(TABLE_NAME).insert(_.pick(join, columns)).returning(columns)
 }
 
-get = (id, attri = columns) => {
-    return knex.select(attri).from(TABLE_NAME).where({id: id}).first()
+get = (userId, crowdId, attri = columns) => {
+    return knex.select(attri).from(TABLE_NAME).where({userId: userId, crowdId: crowdId}).first()
 }
 
 update = (id, updateObj) => {
