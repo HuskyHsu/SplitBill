@@ -6,12 +6,13 @@ const userJoinModel = require('../models/userJoin');
 
 async function HandleMessage(context) {
   const {userId, groupId, roomId} = context.event.source
-  if (context.event.source.type === 'group') {
-    const data = await userJoinModel.get(userId, groupId)
+  const crowdId = groupId || roomId
+  if (['group', 'room'].includes(context.event.source.type)) {
+    const data = await userJoinModel.get(userId, crowdId)
     if (data == null) {
       await userJoinModel.create({
-        userId: userId,
-        crowdId: context.event.source.groupId
+        userId,
+        crowdId
       })
     }
   }
