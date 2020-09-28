@@ -1,4 +1,4 @@
-const { line } = require('bottender/router');
+const { text, line } = require('bottender/router');
 const crowdModel = require('../models/crowds');
 const client = require('../models/line');
 
@@ -42,7 +42,22 @@ async function HandleLeave(context) {
     })
 }
 
+async function addCrowd(context) {
+  const {userId, groupId, roomId} = context.event.source
+  const crowdId = groupId || roomId
+  if (['group', 'room'].includes(context.event.source.type)) {
+    const data = await userJoinModel.get(userId, crowdId)
+    if (data == null) {
+      await userJoinModel.create({
+        userId,
+        crowdId
+      })
+    }
+  }
+}
+
 module.exports = [
+  text('[加入]', addCrowd),
   line.join(HandleJoin),
   line.leave(HandleLeave),
 ]
