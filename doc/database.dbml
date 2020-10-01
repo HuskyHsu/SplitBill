@@ -1,0 +1,77 @@
+Table users {
+  id int [pk, increment]
+  userId varchar [unique]
+  displayName varchar [not null]
+  pictureUrl varchar [not null]
+  statusMessage varchar
+  language varchar
+  active boolean 
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table crowds {
+  id int [pk, increment]
+  crowdId varchar [unique]
+  type crowd_type
+  groupName varchar
+  pictureUrl varchar
+  active boolean 
+  created_at timestamp
+  updated_at timestamp
+}
+
+Enum crowd_type {
+  group
+  room
+}
+
+Table join_map {
+  userId varchar [ref: - users.userId]
+  crowdId varchar [ref: - crowds.crowdId]
+  
+  Indexes {
+    (userId, crowdId) [unique]
+  }
+}
+
+Table share_event {
+  id int [pk, increment]
+  crowdId varchar [ref: > crowds.crowdId]
+  price int
+  split_type split_type
+  status varchar
+  remark varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Enum split_type {
+  AVG
+  EXTRA
+  PERCENT
+  WEIGHTS
+  SINGLE
+}
+
+Table payer {
+  id int [pk, increment]
+  userId varchar [ref: - users.userId]
+  share int
+  share_event_id int [ref: > share_event.id]
+  
+  Indexes {
+    (userId, share_event_id) [unique]
+  }
+}
+
+Table debtor {
+  id int [pk, increment]
+  userId varchar [ref: - users.userId]
+  value int
+  share_event_id int [ref: > share_event.id]
+  
+  Indexes {
+    (userId, share_event_id) [unique]
+  }
+}
