@@ -39,7 +39,7 @@ Table share_event {
   id int [pk, increment]
   crowdId varchar [ref: > crowds.crowdId]
   price int
-  split_type split_type
+  splitType split_type
   status varchar
   remark varchar
   created_at timestamp
@@ -57,7 +57,7 @@ Enum split_type {
 Table payer {
   id int [pk, increment]
   userId varchar [ref: - users.userId]
-  share int
+  value int
   share_event_id int [ref: > share_event.id]
   
   Indexes {
