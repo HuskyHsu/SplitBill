@@ -54,24 +54,22 @@ Enum split_type {
   SINGLE
 }
 
-Table payer {
-  id int [pk, increment]
-  userId varchar [ref: - users.userId]
-  value int
-  share_event_id int [ref: > share_event.id]
-  
-  Indexes {
-    (userId, share_event_id) [unique]
-  }
+Enum user_type {
+  PAYER
+  DEBTOR
 }
 
-Table debtor {
+Table participants {
   id int [pk, increment]
   userId varchar [ref: - users.userId]
   value int
+  type user_type
   share_event_id int [ref: > share_event.id]
+
+  created_at timestamp
+  updated_at timestamp
   
   Indexes {
-    (userId, share_event_id) [unique]
+    (share_event_id, userId, type) [unique]
   }
 }

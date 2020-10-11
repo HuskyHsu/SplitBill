@@ -1,15 +1,20 @@
 let _ = require('lodash');
-const knex = require('../models/db')
+const knex = require('./db')
 
-const TABLE_NAME = 'userJoin'
+const TABLE_NAME = 'join_map'
 
 let columns = null
 knex(TABLE_NAME).columnInfo().then((cols) => {
     columns = Object.keys(cols)
 })
 
-create = (join) => {
-    return knex(TABLE_NAME).insert(_.pick(join, columns)).returning(columns)
+create = (data) => {
+    if (!Array.isArray(data)) {
+        data = [data]
+    }
+
+    data = data.map((row) => _.pick(row, columns))
+    return knex(TABLE_NAME).insert(data).returning(columns)
 }
 
 get = (userId, crowdId, attri = columns) => {

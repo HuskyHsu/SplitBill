@@ -19,13 +19,13 @@ create = (join) => {
 }
 
 get = (id, attri = columns) => {
-    return knex.select(attri).from(TABLE_NAME).where({id: id}).first()
+    return knex.select(attri).from(TABLE_NAME).where({crowdId: id}).first()
 }
 
 update = (id, updateObj) => {
     updateObj.updated_at = new Date();
-    const _updateObj = _.pick(updateObj, columns.filter((field) => field !== 'id'))
-    return knex(TABLE_NAME).where({id: id}).update(_updateObj).returning(columns)
+    const _updateObj = _.pick(updateObj, columns.filter((field) => field !== 'crowdId'))
+    return knex(TABLE_NAME).where({crowdId: id}).update(_updateObj).returning(columns)
 }
 
 module.exports = {

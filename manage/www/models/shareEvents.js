@@ -1,14 +1,22 @@
-const knex = require('../models/db')
+const knex = require('./db')
 
-const TABLE_NAME = 'users'
+const TABLE_NAME = 'share_event'
 
 let columns = null
 knex(TABLE_NAME).columnInfo().then((cols) => {
     columns = Object.keys(cols)
 })
 
-create = (member) => {
-    return knex(TABLE_NAME).insert(member).returning(columns)
+splitTypeEnum = {
+    AVG: 'AVG',
+    EXTRA: 'EXTRA',
+    PERCENT: 'PERCENT',
+    WEIGHTS: 'WEIGHTS',
+    SINGLE: 'SINGLE'
+}
+
+create = (event) => {
+    return knex(TABLE_NAME).insert(_.pick(event, columns)).returning(columns)
 }
 
 get = (userId, attri = columns) => {
@@ -21,7 +29,8 @@ update = (userId, updateObj) => {
 }
 
 module.exports = {
-    get: get,
-    create: create,
-    update: update,
+    get,
+    create,
+    update,
+    splitTypeEnum
 }

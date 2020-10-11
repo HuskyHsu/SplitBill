@@ -1,5 +1,6 @@
 const { text, line } = require('bottender/router');
 const crowdModel = require('../models/crowds');
+const joinMapModel = require('../models/joinMap');
 const client = require('../models/line');
 
 async function HandleJoin(context) {
@@ -7,7 +8,7 @@ async function HandleJoin(context) {
   const crowdId = type === 'group' ? context.event.join.groupId : context.event.join.roomId;
 
   let info = {
-    id: crowdId,
+    crowdId: crowdId,
     type: type,
     active: true
   }
@@ -34,30 +35,46 @@ async function HandleJoin(context) {
   
 async function HandleLeave(context) {
   const type = context.event.leave.type;
-  const id = type === 'group' ? context.event.leave.groupId : context.event.leave.roomId;
+  const crowdId = type === 'group' ? context.event.leave.groupId : context.event.leave.roomId;
 
-  return crowdModel.update(id, {active: false})
+  return crowdModel.update(crowdId, {active: false})
     .then((result) => {
       console.log(result[0]);
     })
 }
 
 async function addCrowd(context) {
-  const {userId, groupId, roomId} = context.event.source
-  const crowdId = groupId || roomId
+  const {userId, groupId, roomId} = context.event.source;
+  const crowdId = groupId || roomId;
   if (['group', 'room'].includes(context.event.source.type)) {
-    const data = await userJoinModel.get(userId, crowdId)
-    if (data == null) {
-      await userJoinModel.create({
-        userId,
-        crowdId
-      })
+    const data = await joinMapModel.get(userId, crowdId)
+    if (data != null) {
+      return await context.sendText('已加入過');
     }
+    await joinMapModel.create({
+      userId,
+      crowdId
+    })
+
+    await context.sendText('加入成功');
   }
+}
+
+async function HandleMemberJoined(context) {
+  const {groupId, roomId} = context.event.joined.source;
+  const crowdId = groupId || roomId;
+}
+
+async function HandleMemberLeft(context) {
+  const {groupId, roomId} = context.event.left.source;
+  const crowdId = groupId || roomId;
 }
 
 module.exports = [
   text('[加入]', addCrowd),
   line.join(HandleJoin),
   line.leave(HandleLeave),
+
+  line.memberJoined(HandleMemberJoined),
+  line.memberLeft(HandleMemberLeft),
 ]

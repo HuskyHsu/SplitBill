@@ -8,9 +8,9 @@ async function HandleFollow(context) {
     .then(member => {
       member.active = true;
 
-      userModel.getUser(userId)
+      userModel.get(userId)
         .then((user) => {
-          return user == null ? userModel.createUser(member) : userModel.updateUser(userId, member)
+          return user == null ? userModel.create(member) : userModel.update(userId, member)
         })
         .then((users) => {
           console.log(users[0]);
@@ -21,7 +21,7 @@ async function HandleFollow(context) {
 async function HandleUnfollow(context) {
   const userId = context.event.unfollow.userId;
 
-  return userModel.updateUser(userId, {active: false})
+  return userModel.update(userId, {active: false})
     .then((users) => {
       console.log(users[0]);
     })
