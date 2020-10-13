@@ -24,5 +24,5 @@ async function addEvent(context, {
 }
 
 module.exports = [
-  text(new RegExp(`(?<price>[0-9]+) (?<splitType>${Object.values(shareEventsModel.splitTypeEnum).join('|')})`, 'u'), addEvent),
+  text(new RegExp(`(?<price>\\d+) (?<splitType>${Object.values(shareEventsModel.splitTypeEnum).join('|')})`, 'u'), addEvent),
 ]
