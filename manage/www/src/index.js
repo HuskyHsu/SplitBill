@@ -1,11 +1,11 @@
-const { router, line } = require('bottender/router');
+const { router, route, line } = require('bottender/router');
 
 const follow = require('../router/follow');
 const inOut = require('../router/inOut');
 const share = require('../router/share');
 
 async function HandleMessage(context) {
-  await context.sendText(context.event.text);
+  await context.sendText(`err: ${context.event.text}`);
 }
 
 module.exports = async function App() {
@@ -14,6 +14,6 @@ module.exports = async function App() {
     ...inOut,
     ...share,
 
-    line.message(HandleMessage)
+    route('*', HandleMessage),
   ]);
 }

@@ -1,4 +1,5 @@
-const knex = require('./db')
+let _ = require('lodash');
+const knex = require('./db');
 
 const TABLE_NAME = 'share_event'
 

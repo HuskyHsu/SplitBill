@@ -11,16 +11,18 @@ async function addEvent(context, {
   const {userId, groupId, roomId} = context.event.source;
   const crowdId = groupId || roomId;
   if (context.event.source.type === 'user') {
-    await context.sendText('失敗');
+    return await context.sendText('失敗');
   }
 
-  console.log(price, splitType)
+  shareEvent = await shareEventsModel.create({
+    crowdId,
+    price,
+    splitType
+  })
 
-  // shareEventsModel.create({
-    
-  // })
+  return await context.sendText('成功');
 }
 
 module.exports = [
-  text(new RegExp(`(?<price>\d+),(?<splitType>${Object.values(shareEventsModel.splitTypeEnum).join('|')})`, 'i'), addEvent),
+  text(new RegExp(`(?<price>[0-9]+) (?<splitType>${Object.values(shareEventsModel.splitTypeEnum).join('|')})`, 'u'), addEvent),
 ]

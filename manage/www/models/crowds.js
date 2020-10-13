@@ -1,9 +1,3 @@
-// bot join or leave
-// add group or room
-
-
-// member join or leave
-// add member of group or room
 let _ = require('lodash');
 const knex = require('../models/db')
 
