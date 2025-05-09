@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增紀錄 - LINE 共同記帳</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+            overscroll-behavior-y: contain;
+        }
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1c1c1e;
+            padding: 20px 16px 12px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #3c3c43; /* Slightly darker for labels */
+            margin-bottom: 8px;
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: white;
+            font-size: 16px;
+            color: #1c1c1e;
+            margin-bottom: 16px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #007aff; /* iOS Blue */
+            box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+        }
+        .split-method-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background-color: white;
+        }
+        .split-method-option input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #007aff; /* iOS Blue for radio button */
+        }
+        .split-method-option.selected {
+            border-color: #007aff;
+            background-color: #f0f8ff; /* Light blue tint */
+        }
+        .add-button {
+            background-color: #007aff; /* iOS Blue */
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .add-button:hover {
+            background-color: #005bb5; /* Darker blue on hover */
+        }
+        .member-checkbox-label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .member-checkbox-label input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #007aff;
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+<body class="p-0 m-0">
+    <div class="min-h-screen pb-24"> <h1 class="header-title">新增一筆支出</h1>
+
+        <form id="add-expense-form" class="px-4 space-y-6">
+            <div>
+                <label for="description" class="form-label">項目描述</label>
+                <input type="text" id="description" name="description" class="form-input" placeholder="例如：晚餐、電影票">
+            </div>
+
+            <div>
+                <label for="amount" class="form-label">金額 (NT$)</label>
+                <input type="number" id="amount" name="amount" class="form-input" placeholder="0.00" pattern="[0-9]*\.?[0-9]*">
+            </div>
+
+            <div>
+                <label for="paid-by" class="form-label">代墊人</label>
+                <select id="paid-by" name="paid-by" class="form-select">
+                    <option value="user_self">我</option>
+                    <option value="member_a">陳小明</option>
+                    <option value="member_b">王大華</option>
+                    <option value="member_c">李四</option>
+                    </select>
+            </div>
+
+            <div>
+                <label class="form-label">參與分攤的人員</label>
+                <div id="sharers-list" class="space-y-2">
+                    <label class="member-checkbox-label">
+                        <input type="checkbox" name="sharer" value="user_self" checked> 我
+                    </label>
+                    <label class="member-checkbox-label">
+                        <input type="checkbox" name="sharer" value="member_a" checked> 陳小明
+                    </label>
+                    <label class="member-checkbox-label">
+                        <input type="checkbox" name="sharer" value="member_b" checked> 王大華
+                    </label>
+                    <label class="member-checkbox-label">
+                        <input type="checkbox" name="sharer" value="member_c"> 李四
+                    </label>
+                    </div>
+            </div>
+
+            <div>
+                <label class="form-label">分攤方式</label>
+                <div id="split-method-options">
+                    <label class="split-method-option selected" data-method="equally">
+                        <input type="radio" name="split-method" value="equally" checked> 平均分攤
+                    </label>
+                    <label class="split-method-option" data-method="exact">
+                        <input type="radio" name="split-method" value="exact"> 個別指定金額
+                    </label>
+                    <label class="split-method-option" data-method="percentage">
+                        <input type="radio" name="split-method" value="percentage"> 百分比
+                    </label>
+                </div>
+                <div id="split-details" class="mt-4 space-y-3">
+                    </div>
+            </div>
+
+            <button type="submit" class="add-button">
+                <i class="fas fa-check-circle mr-2"></i>儲存紀錄
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('add-expense-form');
+            const splitMethodOptions = document.querySelectorAll('.split-method-option');
+            const splitDetailsContainer = document.getElementById('split-details');
+            const sharersList = document.getElementById('sharers-list');
+
+            // 模擬的群組成員 (實際應用中會從 LIFF 或後端獲取)
+            const groupMembers = [
+                { id: 'user_self', name: '我', isDefaultSharer: true },
+                { id: 'member_a', name: '陳小明', isDefaultSharer: true },
+                { id: 'member_b', name: '王大華', isDefaultSharer: true },
+                { id: 'member_c', name: '李四', isDefaultSharer: false }
+            ];
+
+            // 動態生成代墊人和參與分攤人員列表
+            const paidBySelect = document.getElementById('paid-by');
+            paidBySelect.innerHTML = ''; // 清空現有選項
+            groupMembers.forEach(member => {
+                const option = document.createElement('option');
+                option.value = member.id;
+                option.textContent = member.name;
+                if (member.id === 'user_self') option.selected = true;
+                paidBySelect.appendChild(option);
+
+                const sharerLabel = document.createElement('label');
+                sharerLabel.className = 'member-checkbox-label';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'sharer';
+                checkbox.value = member.id;
+                checkbox.checked = member.isDefaultSharer;
+                sharerLabel.appendChild(checkbox);
+                sharerLabel.appendChild(document.createTextNode(` ${member.name}`));
+                // For the first load, clear the static ones and add dynamic ones
+                if (member.id === groupMembers[0].id) sharersList.innerHTML = '';
+                sharersList.appendChild(sharerLabel);
+            });
+
+
+            splitMethodOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    splitMethodOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    this.querySelector('input[type="radio"]').checked = true;
+                    updateSplitDetails(this.dataset.method);
+                });
+            });
+
+            function updateSplitDetails(method) {
+                splitDetailsContainer.innerHTML = ''; // 清空之前的詳細內容
+                const checkedSharers = Array.from(sharersList.querySelectorAll('input[name="sharer"]:checked'))
+                                           .map(cb => groupMembers.find(m => m.id === cb.value));
+                const amountInput = document.getElementById('amount');
+                const totalAmount = parseFloat(amountInput.value) || 0;
+
+
+                if (method === 'exact') {
+                    checkedSharers.forEach(sharer => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-center justify-between';
+                        div.innerHTML = `
+                            <label for="exact-${sharer.id}" class="text-sm">${sharer.name}:</label>
+                            <input type="number" id="exact-${sharer.id}" name="exact_amount_${sharer.id}"
+                                   class="form-input !mb-0 w-1/2" placeholder="金額">
+                        `;
+                        splitDetailsContainer.appendChild(div);
+                    });
+                } else if (method === 'percentage') {
+                     checkedSharers.forEach(sharer => {
+                        const div = document.createElement('div');
+                        div.className = 'flex items-center justify-between';
+                        div.innerHTML = `
+                            <label for="percentage-${sharer.id}" class="text-sm">${sharer.name}:</label>
+                            <input type="number" id="percentage-${sharer.id}" name="percentage_amount_${sharer.id}"
+                                   class="form-input !mb-0 w-1/2" placeholder="%">
+                        `;
+                        splitDetailsContainer.appendChild(div);
+                    });
+                } else if (method === 'equally') {
+                    if (checkedSharers.length > 0 && totalAmount > 0) {
+                        const perPersonAmount = (totalAmount / checkedSharers.length).toFixed(2);
+                        const infoText = document.createElement('p');
+                        infoText.className = 'text-sm text-gray-600';
+                        infoText.textContent = `每位參與者將分攤 NT$ ${perPersonAmount}`;
+                        splitDetailsContainer.appendChild(infoText);
+                    }
+                }
+            }
+
+            // 監聽金額或參與者變動，以更新均分時的提示
+            document.getElementById('amount').addEventListener('input', () => {
+                const selectedMethod = document.querySelector('.split-method-option.selected input[type="radio"]').value;
+                if(selectedMethod === 'equally') updateSplitDetails('equally');
+            });
+            sharersList.addEventListener('change', () => {
+                 const selectedMethod = document.querySelector('.split-method-option.selected input[type="radio"]').value;
+                if(selectedMethod === 'equally') updateSplitDetails('equally');
+            });
+
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                // 在此處處理表單提交邏輯
+                // 例如：收集數據，通過 LIFF API 發送到後端
+                const formData = new FormData(form);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        if (!Array.isArray(data[key])) {
+                            data[key] = [data[key]];
+                        }
+                        data[key].push(value);
+                    } else {
+                        data[key] = value;
+                    }
+                }
+                console.log('表單數據:', data);
+                alert('紀錄已儲存！（模擬）');
+                // 可以導航回總覽頁面
+                // window.parent.document.getElementById('content-iframe').src = 'overview.html';
+                // window.parent.document.querySelector('.tab-item[data-page="overview.html"]').click();
+            });
+
+            // 初始化分攤方式詳細資訊 (預設為平均分攤)
+            updateSplitDetails('equally');
+        });
+    </script>
+</body>
+</html>

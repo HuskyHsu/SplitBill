@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設定 - LINE 共同記帳</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5; /* iOS settings-like background */
+            overscroll-behavior-y: contain;
+        }
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1c1c1e;
+            padding: 20px 16px 12px;
+            background-color: #f9f9f9; /* Slightly different bg for header area */
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .settings-group {
+            margin-top: 20px;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.1s ease-in-out;
+        }
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        .settings-item:hover {
+            background-color: #f5f5f5;
+        }
+        .settings-item-label {
+            font-size: 16px;
+            color: #1c1c1e;
+        }
+        .settings-item-value {
+            font-size: 16px;
+            color: #8e8e93;
+        }
+        .settings-item i.fa-chevron-right {
+            color: #c7c7cc; /* iOS chevron color */
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 51px; /* iOS toggle width */
+            height: 31px; /* iOS toggle height */
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e9e9eb; /* iOS toggle off background */
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 27px; /* iOS toggle knob height */
+            width: 27px; /* iOS toggle knob width */
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 0 2px rgba(0,0,0,0.12);
+        }
+        input:checked + .slider {
+            background-color: #34c759; /* iOS green */
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px); /* (51-2-27) = 22, but 20 looks better */
+        }
+    </style>
+</head>
+<body class="p-0 m-0">
+    <div class="min-h-screen pb-24">
+        <h1 class="header-title">設定</h1>
+
+        <div class="settings-group">
+            <div class="settings-item">
+                <span class="settings-item-label">群組名稱</span>
+                <div class="flex items-center">
+                    <span class="settings-item-value mr-2">歡樂出遊記帳群</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="settings-item">
+                <span class="settings-item-label">預設貨幣</span>
+                <div class="flex items-center">
+                    <span class="settings-item-value mr-2">NT$ (新台幣)</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="settings-item">
+                <span class="settings-item-label">通知設定</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="settings-item">
+                <span class="settings-item-label">新支出通知</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="settings-item">
+                <span class="settings-item-label">結算提醒通知</span>
+                <label class="toggle-switch">
+                    <input type="checkbox">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="settings-item">
+                <span class="settings-item-label">外觀</span>
+                <div class="flex items-center">
+                    <span class="settings-item-value mr-2">跟隨系統</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+             <div class="settings-item">
+                <span class="settings-item-label">啟用深色模式</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="settings-item">
+                <span class="settings-item-label">關於此應用</span>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="settings-item">
+                <span class="settings-item-label">版本</span>
+                <span class="settings-item-value">1.0.0 (Alpha)</span>
+            </div>
+        </div>
+
+        <div class="px-4 mt-8">
+            <button class="w-full text-red-500 bg-white font-semibold py-3 px-4 rounded-lg border border-red-300 hover:bg-red-50 transition duration-150 ease-in-out">
+                登出或離開群組
+            </button>
+        </div>
+    </div>
+    <script>
+        // Basic dark mode toggle example (would need more robust implementation)
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                // This is a very basic example.
+                // A real dark mode would toggle classes on the body/html
+                // and have corresponding dark styles in CSS.
+                // For Tailwind, you'd typically add a 'dark' class to the html element
+                // and use 'dark:' prefixes in your utility classes.
+                // document.documentElement.classList.add('dark');
+                console.log("深色模式啟用 (模擬)");
+            } else {
+                // document.documentElement.classList.remove('dark');
+                console.log("深色模式停用 (模擬)");
+            }
+        });
+    </script>
+</body>
+</html>

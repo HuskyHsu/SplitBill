@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成員帳目 - LINE 共同記帳</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f9f9f9;
+            overscroll-behavior-y: contain;
+        }
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1c1c1e;
+            padding: 20px 16px 12px;
+        }
+        .member-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .member-info {
+            display: flex;
+            align-items: center;
+        }
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+            background-color: #e0e0e0; /* Placeholder background */
+        }
+        .member-name {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1c1c1e;
+        }
+        .member-status {
+            font-size: 14px;
+        }
+        .status-owes-you {
+            color: #34c759; /* iOS green */
+        }
+        .status-you-owe {
+            color: #ff3b30; /* iOS red */
+        }
+        .status-settled {
+            color: #8e8e93; /* iOS gray */
+        }
+        .amount {
+            font-size: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="p-0 m-0">
+    <div class="min-h-screen pb-24">
+        <h1 class="header-title">成員帳目總表</h1>
+
+        <div class="px-4 space-y-4">
+            <div class="member-card">
+                <div class="member-info">
+                    <img src="https://placehold.co/48x48/EBF4FF/76A9EA?text=您&font=sans" alt="您的頭像" class="member-avatar">
+                    <div>
+                        <p class="member-name">我 (您)</p>
+                        <p class="member-status status-settled">已結清</p>
+                    </div>
+                </div>
+                <p class="amount status-settled">NT$ 0</p>
+            </div>
+
+            <div class="member-card">
+                <div class="member-info">
+                    <img src="https://placehold.co/48x48/FFEBEB/EA7676?text=陳&font=sans" alt="陳小明 頭像" class="member-avatar">
+                    <div>
+                        <p class="member-name">陳小明</p>
+                        <p class="member-status status-you-owe">您應支付</p>
+                    </div>
+                </div>
+                <p class="amount status-you-owe">NT$ 350</p>
+            </div>
+
+            <div class="member-card">
+                <div class="member-info">
+                    <img src="https://placehold.co/48x48/EBF9F1/76D7C4?text=王&font=sans" alt="王大華 頭像" class="member-avatar">
+                    <div>
+                        <p class="member-name">王大華</p>
+                        <p class="member-status status-owes-you">應支付給您</p>
+                    </div>
+                </div>
+                <p class="amount status-owes-you">NT$ 500</p>
+            </div>
+
+            <div class="member-card">
+                <div class="member-info">
+                    <img src="https://placehold.co/48x48/F6EBF9/C376D7?text=李&font=sans" alt="李四 頭像" class="member-avatar">
+                    <div>
+                        <p class="member-name">李四</p>
+                        <p class="member-status status-settled">已結清</p>
+                    </div>
+                </div>
+                <p class="amount status-settled">NT$ 0</p>
+            </div>
+             </div>
+    </div>
+</body>
+</html>
