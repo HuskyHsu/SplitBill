@@ -1,148 +1,152 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>紀錄詳情 - LINE 共同記帳</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
     <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: #f9f9f9;
-            overscroll-behavior-y: contain;
-        }
-        .header-title {
-            font-size: 24px; /* Slightly smaller for sub-pages */
-            font-weight: 600;
-            color: #1c1c1e;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            background-color: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .back-button {
-            color: #007aff; /* iOS Blue */
-            text-decoration: none;
-            font-size: 16px;
-            margin-right: 8px;
-        }
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 20px 16px;
-            padding: 16px;
-        }
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1c1c1e;
-            margin-bottom: 12px;
-        }
-         .detail-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 16px;
-        }
-        .detail-item .label {
-            color: #8e8e93;
-        }
-        .detail-item .value {
-            color: #1c1c1e;
-            font-weight: 500;
-        }
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f9f9f9;
+        overscroll-behavior-y: contain;
+      }
+      .header-title {
+        font-size: 24px; /* Slightly smaller for sub-pages */
+        font-weight: 600;
+        color: #1c1c1e;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .back-button {
+        color: #007aff; /* iOS Blue */
+        text-decoration: none;
+        font-size: 16px;
+        margin-right: 8px;
+      }
+      .card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin: 20px 16px;
+        padding: 16px;
+      }
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1c1c1e;
+        margin-bottom: 12px;
+      }
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 16px;
+      }
+      .detail-item .label {
+        color: #8e8e93;
+      }
+      .detail-item .value {
+        color: #1c1c1e;
+        font-weight: 500;
+      }
     </style>
-</head>
-<body class="p-0 m-0">
+  </head>
+  <body class="p-0 m-0">
     <div class="min-h-screen pb-24">
-        <div class="header-title">
-            <a href="#" onclick="goBack(); return false;" class="back-button">
-                <i class="fas fa-chevron-left"></i> 返回
-            </a>
-            紀錄詳情
+      <div class="header-title">
+        <a href="#" onclick="goBack(); return false;" class="back-button">
+          <i class="fas fa-chevron-left"></i> 返回
+        </a>
+        紀錄詳情
+      </div>
+
+      <div class="card">
+        <div class="flex items-center mb-4">
+          <div
+            class="mr-4 flex-shrink-0 bg-green-100 text-green-600 w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
+          >
+            <i class="fas fa-utensils"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl font-semibold text-gray-800">午餐 - 拉麵</h2>
+            <p class="text-gray-500 text-sm">2024年5月10日 12:30</p>
+          </div>
         </div>
 
-        <div class="card">
-            <div class="flex items-center mb-4">
-                <div class="mr-4 flex-shrink-0 bg-green-100 text-green-600 w-16 h-16 rounded-xl flex items-center justify-center text-3xl">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-semibold text-gray-800">午餐 - 拉麵</h2>
-                    <p class="text-gray-500 text-sm">2024年5月10日 12:30</p>
-                </div>
-            </div>
-
-            <div class="detail-item">
-                <span class="label">總金額</span>
-                <span class="value">NT$ 450</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">代墊人</span>
-                <span class="value">我</span>
-            </div>
-            <div class="detail-item">
-                <span class="label">分攤方式</span>
-                <span class="value">3人均分</span>
-            </div>
+        <div class="detail-item">
+          <span class="label">總金額</span>
+          <span class="value">NT$ 450</span>
         </div>
-
-        <div class="card">
-            <h3 class="section-title">分攤明細</h3>
-            <div class="detail-item">
-                <span>我</span>
-                <span>NT$ 150</span>
-            </div>
-            <div class="detail-item">
-                <span>陳小明</span>
-                <span>NT$ 150</span>
-            </div>
-            <div class="detail-item">
-                <span>王大華</span>
-                <span>NT$ 150</span>
-            </div>
+        <div class="detail-item">
+          <span class="label">代墊人</span>
+          <span class="value">我</span>
         </div>
-
-        <div class="card">
-            <h3 class="section-title">歷史異動</h3>
-            <p class="text-sm text-gray-500">2024/05/10 12:30 由 <strong>我</strong> 新增</p>
-            </div>
-
-
-        <div class="px-4 mt-6 space-x-3 flex justify-end">
-            <button class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out">
-                <i class="fas fa-trash-alt mr-1"></i> 刪除
-            </button>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out">
-                <i class="fas fa-edit mr-1"></i> 編輯
-            </button>
+        <div class="detail-item">
+          <span class="label">分攤方式</span>
+          <span class="value">3人均分</span>
         </div>
+      </div>
 
+      <div class="card">
+        <h3 class="section-title">分攤明細</h3>
+        <div class="detail-item">
+          <span>我</span>
+          <span>NT$ 150</span>
+        </div>
+        <div class="detail-item">
+          <span>陳小明</span>
+          <span>NT$ 150</span>
+        </div>
+        <div class="detail-item">
+          <span>王大華</span>
+          <span>NT$ 150</span>
+        </div>
+      </div>
+
+      <div class="px-4 mt-6 space-x-3 flex justify-end">
+        <button
+          class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+        >
+          <i class="fas fa-trash-alt mr-1"></i> 刪除
+        </button>
+        <button
+          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+        >
+          <i class="fas fa-edit mr-1"></i> 編輯
+        </button>
+      </div>
     </div>
     <script>
-        function goBack() {
-            // Navigate back to the overview page in the iframe
-            // This assumes overview.html is the page you want to go back to.
-            // You might need more sophisticated history management in a real app.
-            window.parent.document.getElementById('content-iframe').src = 'overview.html';
+      function goBack() {
+        // Navigate back to the overview page in the iframe
+        // This assumes overview.html is the page you want to go back to.
+        // You might need more sophisticated history management in a real app.
+        window.parent.document.getElementById('content-iframe').src = 'overview.html';
 
-            // Also, update the active tab in the parent
-            const tabItems = window.parent.document.querySelectorAll('.tab-item');
-            tabItems.forEach(tab => tab.classList.remove('active'));
-            const overviewTab = window.parent.document.querySelector('.tab-item[data-page="overview.html"]');
-            if(overviewTab) {
-                overviewTab.classList.add('active');
-            }
+        // Also, update the active tab in the parent
+        const tabItems = window.parent.document.querySelectorAll('.tab-item');
+        tabItems.forEach((tab) => tab.classList.remove('active'));
+        const overviewTab = window.parent.document.querySelector(
+          '.tab-item[data-page="overview.html"]'
+        );
+        if (overviewTab) {
+          overviewTab.classList.add('active');
         }
+      }
 
-        // You can get the record ID from URL query parameter if needed
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const recordId = urlParams.get('id');
-        // console.log("Displaying details for record ID:", recordId);
-        // Then fetch and display actual data for this recordId
+      // You can get the record ID from URL query parameter if needed
+      // const urlParams = new URLSearchParams(window.location.search);
+      // const recordId = urlParams.get('id');
+      // console.log("Displaying details for record ID:", recordId);
+      // Then fetch and display actual data for this recordId
     </script>
-</body>
+  </body>
 </html>

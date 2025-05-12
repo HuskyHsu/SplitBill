@@ -1,145 +1,164 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>結算建議 - LINE 共同記帳</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
     <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: #f9f9f9;
-            overscroll-behavior-y: contain;
-        }
-        .header-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #1c1c1e;
-            padding: 20px 16px 12px;
-            display: flex;
-            align-items: center;
-        }
-         .back-button {
-            color: #007aff; /* iOS Blue */
-            text-decoration: none;
-            font-size: 16px;
-            margin-right: 8px;
-        }
-        .card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 16px;
-            padding: 16px;
-        }
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1c1c1e;
-            margin-bottom: 12px;
-        }
-        .transaction-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .transaction-item:last-child {
-            border-bottom: none;
-        }
-        .transaction-details {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-        }
-        .transaction-details .name {
-            font-weight: 500;
-        }
-        .transaction-details .arrow {
-            margin: 0 10px;
-            color: #8e8e93;
-        }
-        .transaction-amount {
-            font-size: 16px;
-            font-weight: 600;
-            color: #ff3b30; /* Default to "pay" color */
-        }
-        .settle-summary p {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .settle-summary .total-positive {
-            color: #34c759; /* iOS green */
-            font-weight: bold;
-        }
-        .settle-summary .total-negative {
-            color: #ff3b30; /* iOS red */
-            font-weight: bold;
-        }
+      body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f9f9f9;
+        overscroll-behavior-y: contain;
+      }
+      .header-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1c1c1e;
+        padding: 20px 16px 12px;
+        display: flex;
+        align-items: center;
+      }
+      .back-button {
+        color: #007aff; /* iOS Blue */
+        text-decoration: none;
+        font-size: 16px;
+        margin-right: 8px;
+      }
+      .card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin: 16px;
+        padding: 16px;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1c1c1e;
+        margin-bottom: 12px;
+      }
+      .transaction-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #e5e5e5;
+      }
+      .transaction-item:last-child {
+        border-bottom: none;
+      }
+      .transaction-details {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+      }
+      .transaction-details .name {
+        font-weight: 500;
+      }
+      .transaction-details .arrow {
+        margin: 0 10px;
+        color: #8e8e93;
+      }
+      .transaction-amount {
+        font-size: 16px;
+        font-weight: 600;
+        color: #ff3b30; /* Default to "pay" color */
+      }
+      .settle-summary p {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .settle-summary .total-positive {
+        color: #34c759; /* iOS green */
+        font-weight: bold;
+      }
+      .settle-summary .total-negative {
+        color: #ff3b30; /* iOS red */
+        font-weight: bold;
+      }
+      .member-info {
+        display: flex;
+        align-items: center;
+      }
+      .member-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        margin-right: 12px;
+        object-fit: cover;
+        background-color: #e0e0e0; /* Placeholder background */
+      }
     </style>
-</head>
-<body class="p-0 m-0">
+  </head>
+  <body class="p-0 m-0">
     <div class="min-h-screen pb-24">
-        <div class="header-title bg-white border-b border-gray-200">
-             <a href="#" onclick="goBackToOverview(); return false;" class="back-button">
-                <i class="fas fa-chevron-left"></i> 總覽
-            </a>
-            結算建議
-        </div>
+      <div class="header-title bg-white border-b border-gray-200">
+        <a href="#" onclick="goBackToOverview(); return false;" class="back-button">
+          <i class="fas fa-chevron-left"></i> 清單
+        </a>
+        結算建議
+      </div>
 
-        <div class="card settle-summary">
-            <h2 class="section-title">您的結算狀況</h2>
-            <p>您總共應支付：<span class="total-negative">NT$ 350</span></p>
-            <p>您總共應收取：<span class="total-positive">NT$ 500</span></p>
-            <hr class="my-3">
-            <p>最終您將收到：<span class="total-positive">NT$ 150</span></p>
-        </div>
+      <div class="card settle-summary">
+        <h2 class="section-title">您的結算狀況</h2>
+        <p>花費總計：<span class="total-negative">NT$ 350</span></p>
+        <p>代墊總計：<span class="total-positive">NT$ 500</span></p>
+        <hr class="my-3" />
+        <p>您需收到：<span class="total-positive">NT$ 150</span></p>
+      </div>
 
-        <div class="card">
-            <h2 class="section-title">建議轉帳路徑 (最簡化)</h2>
+      <div class="card">
+        <h2 class="section-title">建議轉帳路徑</h2>
 
-            <div class="transaction-item">
-                <div class="transaction-details">
-                    <span class="name">您</span>
-                    <i class="fas fa-long-arrow-alt-right arrow"></i>
-                    <span class="name">陳小明</span>
-                </div>
-                <span class="transaction-amount">NT$ 350</span>
+        <div class="transaction-item">
+          <div class="transaction-details">
+            <div class="member-info">
+              <img
+                src="https://i.pravatar.cc/120?u=payerB"
+                alt="陳小明 頭像"
+                class="member-avatar"
+              />
+              <p class="member-name">陳小明</p>
             </div>
-
-            <div class="transaction-item">
-                <div class="transaction-details">
-                    <span class="name">王大華</span>
-                    <i class="fas fa-long-arrow-alt-right arrow"></i>
-                    <span class="name">您</span>
-                </div>
-                <span class="transaction-amount" style="color: #34c759;">NT$ 500</span> </div>
-
+            <i class="fas fa-long-arrow-alt-right arrow"></i>
+            <span class="name">您</span>
+          </div>
+          <span class="transaction-amount" style="color: #34c759">NT$ 50</span>
+        </div>
+        <div class="transaction-item">
+          <div class="transaction-details">
+            <div class="member-info">
+              <img
+                src="https://i.pravatar.cc/120?u=payerC"
+                alt="陳小明 頭像"
+                class="member-avatar"
+              />
+              <p class="member-name">王大華</p>
             </div>
-
-        <div class="px-4 mt-6">
-            <button class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
-                <i class="fas fa-flag-checkered mr-2"></i>標記全部已結清 (提醒群組)
-            </button>
+            <i class="fas fa-long-arrow-alt-right arrow"></i>
+            <span class="name">您</span>
+          </div>
+          <span class="transaction-amount" style="color: #34c759">NT$ 100</span>
         </div>
-         <div class="px-4 mt-3">
-            <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out">
-                分享結算結果至群組
-            </button>
-        </div>
+      </div>
     </div>
     <script>
-        function goBackToOverview() {
-            window.parent.document.getElementById('content-iframe').src = 'overview.html';
-            const tabItems = window.parent.document.querySelectorAll('.tab-item');
-            tabItems.forEach(tab => tab.classList.remove('active'));
-            const overviewTab = window.parent.document.querySelector('.tab-item[data-page="overview.html"]');
-            if(overviewTab) {
-                overviewTab.classList.add('active');
-            }
+      function goBackToOverview() {
+        window.parent.document.getElementById('content-iframe').src = 'overview.html';
+        const tabItems = window.parent.document.querySelectorAll('.tab-item');
+        tabItems.forEach((tab) => tab.classList.remove('active'));
+        const overviewTab = window.parent.document.querySelector(
+          '.tab-item[data-page="overview.html"]'
+        );
+        if (overviewTab) {
+          overviewTab.classList.add('active');
         }
+      }
     </script>
-</body>
+  </body>
 </html>
