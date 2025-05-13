@@ -90,6 +90,7 @@
           <i class="fas fa-calculator mr-2"></i>前往結算
         </button>
       </div>
+
       <div class="px-4 space-y-4">
         <div class="member-card">
           <div class="member-info">
@@ -97,9 +98,18 @@
             <p class="member-name">我</p>
           </div>
           <div class="member-finances">
-            <p class="finance-item">總花費: NT$ 1200</p>
-            <p class="finance-item">總代墊: NT$ 0</p>
-            <p class="finance-balance status-owes-you">應收款 NT$ 1200</p>
+            <div class="finance-item flex justify-between">
+              <span>總應付：</span>
+              <span class="font-semibold">$ 1200</span>
+            </div>
+            <div class="finance-item flex justify-between">
+              <span>總代墊：</span>
+              <span class="font-semibold">$ 0</span>
+            </div>
+            <div class="finance-balance flex justify-between status-you-owe">
+              <span>應支付</span>
+              <span class="font-semibold">$ 1200</span>
+            </div>
           </div>
         </div>
 
@@ -109,33 +119,60 @@
             <p class="member-name">陳小明</p>
           </div>
           <div class="member-finances">
-            <p class="finance-item">總花費: NT$ 500</p>
-            <p class="finance-item">總代墊: NT$ 850</p>
-            <p class="finance-balance status-you-owe">應支付 NT$ 350</p>
+            <div class="finance-item flex justify-between">
+              <span>總應付：</span>
+              <span class="font-semibold">$ 500</span>
+            </div>
+            <div class="finance-item flex justify-between">
+              <span>總代墊：</span>
+              <span class="font-semibold">$ 3000</span>
+            </div>
+            <div class="finance-balance flex justify-between status-owes-you">
+              <span>應收款</span>
+              <span class="font-semibold">$ 2500</span>
+            </div>
           </div>
         </div>
 
         <div class="member-card">
           <div class="member-info">
-            <img src="https://i.pravatar.cc/120?u=payerC" alt="陳小明 頭像" class="member-avatar" />
+            <img src="https://i.pravatar.cc/120?u=payerC" alt="王大華 頭像" class="member-avatar" />
             <p class="member-name">王大華</p>
           </div>
           <div class="member-finances">
-            <p class="finance-item">總花費: NT$ 1000</p>
-            <p class="finance-item">總代墊: NT$ 500</p>
-            <p class="finance-balance status-owes-you">應收款 NT$ 500</p>
+            <div class="finance-item flex justify-between">
+              <span>總應付：</span>
+              <span class="font-semibold">$ 1000</span>
+            </div>
+            <div class="finance-item flex justify-between">
+              <span>總代墊：</span>
+              <span class="font-semibold">$ 500</span>
+            </div>
+            <div class="finance-balance flex justify-between status-you-owe">
+              <span>應支付</span>
+              <span class="font-semibold">$ 500</span>
+            </div>
           </div>
         </div>
 
         <div class="member-card">
           <div class="member-info">
-            <img src="https://i.pravatar.cc/120?u=payerD" alt="陳小明 頭像" class="member-avatar" />
+            <img src="https://i.pravatar.cc/120?u=payerD" alt="李四 頭像" class="member-avatar" />
             <p class="member-name">李四</p>
           </div>
           <div class="member-finances">
-            <p class="finance-item">總花費: NT$ 300</p>
-            <p class="finance-item">總代墊: NT$ 0</p>
-            <p class="finance-balance status-owes-you">應收款 NT$ 300</p>
+            <div class="finance-item flex justify-between">
+              <span>總應付：</span>
+              <span class="font-semibold">$ 300</span>
+            </div>
+            <div class="finance-item flex justify-between">
+              <span>總代墊：</span>
+              <span class="font-semibold">$ 0</span>
+            </div>
+            <div class="finance-balance flex justify-between status-you-owe">
+              <span>應支付</span>
+              <span class="font-semibold">$ 300</span>
+            </div>
           </div>
         </div>
       </div>

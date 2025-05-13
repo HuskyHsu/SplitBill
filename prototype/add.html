@@ -114,7 +114,7 @@
         </div>
 
         <div>
-          <label for="amount" class="form-label">金額 (NT$)</label>
+          <label for="amount" class="form-label">金額 ($)</label>
           <input
             type="number"
             id="amount"
@@ -258,7 +258,7 @@
               const perPersonAmount = (totalAmount / checkedSharers.length).toFixed(2);
               const infoText = document.createElement('p');
               infoText.className = 'text-sm text-gray-600';
-              infoText.textContent = `每位參與者將分攤 NT$ ${perPersonAmount}`;
+              infoText.textContent = `每位參與者將分攤 $ ${perPersonAmount}`;
               splitDetailsContainer.appendChild(infoText);
             }
           }
