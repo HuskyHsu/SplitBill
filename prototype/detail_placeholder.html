@@ -16,20 +16,47 @@
         overscroll-behavior-y: contain;
       }
       .header-title {
-        font-size: 24px; /* Slightly smaller for sub-pages */
-        font-weight: 600;
-        color: #1c1c1e;
-        padding: 16px;
         display: flex;
         align-items: center;
-        background-color: white;
-        border-bottom: 1px solid #e0e0e0;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #fff;
+        padding: 20px 16px 16px 16px;
+        background: linear-gradient(90deg, #4f8cff 0%, #6ed0fa 100%);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: 0 4px 16px 0 rgba(79, 140, 255, 0.08);
+        margin-bottom: 18px;
+        position: relative;
       }
-      .back-button {
-        color: #007aff; /* iOS Blue */
+      .header-title .back-button {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        margin-right: 6px;
+        box-shadow: 0 2px 8px 0 rgba(79, 140, 255, 0.1);
         text-decoration: none;
-        font-size: 16px;
-        margin-right: 8px;
+        padding: 0;
+      }
+      .header-title i.fas.fa-file-alt {
+        font-size: 22px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin-right: 2px;
       }
       .card {
         background-color: white;
@@ -57,15 +84,22 @@
         color: #1c1c1e;
         font-weight: 500;
       }
+      .action-btn {
+        font-size: 15px;
+        white-space: nowrap;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
     </style>
   </head>
   <body class="p-0 m-0">
     <div class="min-h-screen pb-24">
       <div class="header-title">
         <a href="#" onclick="goBack(); return false;" class="back-button">
-          <i class="fas fa-chevron-left"></i> 返回
+          <i class="fas fa-chevron-left"></i>
         </a>
-        紀錄詳情
+        <i class="fas fa-file-alt"></i>
+        記錄詳情
       </div>
 
       <div class="card">
@@ -111,21 +145,21 @@
         </div>
       </div>
 
-      <div class="px-4 mt-6 space-x-3 flex justify-end">
+      <div class="px-4 mt-6 space-x-3 flex justify-center">
         <button
-          class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+          class="action-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
         >
-          <i class="fas fa-trash-alt mr-1"></i> 刪除
+          <i class="fas fa-trash-alt mr-1"></i>
         </button>
         <button
-          class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+          class="action-btn bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
         >
           <i class="fa-regular fa-circle-check mr-1"></i> 單筆結清
         </button>
         <button
-          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+          class="action-btn bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
         >
-          <i class="fas fa-edit mr-1"></i> 編輯
+          <i class="fas fa-edit mr-1"></i>
         </button>
       </div>
     </div>

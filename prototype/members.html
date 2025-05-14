@@ -16,10 +16,40 @@
         overscroll-behavior-y: contain;
       }
       .header-title {
-        font-size: 28px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
         font-weight: 700;
-        color: #1c1c1e;
-        padding: 20px 16px 12px;
+        color: #fff;
+        padding: 20px 16px 16px 16px;
+        background: linear-gradient(90deg, #4f8cff 0%, #6ed0fa 100%);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: 0 4px 16px 0 rgba(79, 140, 255, 0.08);
+        margin-bottom: 18px;
+        position: relative;
+      }
+      .header-title i {
+        font-size: 26px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        padding: 8px;
+        box-shadow: 0 2px 8px 0 rgba(79, 140, 255, 0.1);
+      }
+      .header-title i.fas.fa-users {
+        font-size: 26px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin-right: 2px;
       }
       .member-card {
         background-color: white;
@@ -82,7 +112,10 @@
   </head>
   <body class="p-0 m-0">
     <div class="min-h-screen pb-24">
-      <h1 class="header-title">成員帳目總表</h1>
+      <h1 class="header-title">
+        <i class="fas fa-users"></i>
+        成員帳目總表
+      </h1>
       <div class="mx-4">
         <button
           class="w-full my-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
