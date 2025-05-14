@@ -37,7 +37,6 @@
         background-color: white;
         font-size: 16px;
         color: #1c1c1e;
-        margin-bottom: 16px;
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
       }
       .form-input:focus,
@@ -114,25 +113,18 @@
         </div>
 
         <div>
-          <label for="amount" class="form-label">金額 ($)</label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            class="form-input"
-            placeholder="0.00"
-            pattern="[0-9]*\.?[0-9]*"
-          />
-        </div>
-
-        <div>
-          <label for="paid-by" class="form-label">代墊人</label>
-          <select id="paid-by" name="paid-by" class="form-select">
-            <option value="user_self">我</option>
-            <option value="member_a">陳小明</option>
-            <option value="member_b">王大華</option>
-            <option value="member_c">李四</option>
-          </select>
+          <label class="form-label">代墊人（可多位）</label>
+          <div id="payers-list" class="space-y-2"></div>
+          <button
+            type="button"
+            id="add-payer-btn"
+            class="add-button !w-auto !py-2 !px-4 !text-sm !mt-2"
+          >
+            + 新增代墊人
+          </button>
+          <div class="mt-2 text-right text-gray-600 text-sm">
+            <span id="paid-by-total">代墊人總額：$0</span>
+          </div>
         </div>
 
         <div>
@@ -181,6 +173,8 @@
         const splitMethodOptions = document.querySelectorAll('.split-method-option');
         const splitDetailsContainer = document.getElementById('split-details');
         const sharersList = document.getElementById('sharers-list');
+        const payersList = document.getElementById('payers-list');
+        const addPayerBtn = document.getElementById('add-payer-btn');
 
         // 模擬的群組成員 (實際應用中會從 LIFF 或後端獲取)
         const groupMembers = [
@@ -189,30 +183,6 @@
           { id: 'member_b', name: '王大華', isDefaultSharer: true },
           { id: 'member_c', name: '李四', isDefaultSharer: false },
         ];
-
-        // 動態生成代墊人和參與分攤人員列表
-        const paidBySelect = document.getElementById('paid-by');
-        paidBySelect.innerHTML = ''; // 清空現有選項
-        groupMembers.forEach((member) => {
-          const option = document.createElement('option');
-          option.value = member.id;
-          option.textContent = member.name;
-          if (member.id === 'user_self') option.selected = true;
-          paidBySelect.appendChild(option);
-
-          const sharerLabel = document.createElement('label');
-          sharerLabel.className = 'member-checkbox-label';
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.name = 'sharer';
-          checkbox.value = member.id;
-          checkbox.checked = member.isDefaultSharer;
-          sharerLabel.appendChild(checkbox);
-          sharerLabel.appendChild(document.createTextNode(` ${member.name}`));
-          // For the first load, clear the static ones and add dynamic ones
-          if (member.id === groupMembers[0].id) sharersList.innerHTML = '';
-          sharersList.appendChild(sharerLabel);
-        });
 
         splitMethodOptions.forEach((option) => {
           option.addEventListener('click', function () {
@@ -228,8 +198,12 @@
           const checkedSharers = Array.from(
             sharersList.querySelectorAll('input[name="sharer"]:checked')
           ).map((cb) => groupMembers.find((m) => m.id === cb.value));
-          const amountInput = document.getElementById('amount');
-          const totalAmount = parseFloat(amountInput.value) || 0;
+          // 修正：加總所有代墊人金額
+          let totalAmount = 0;
+          payersList.querySelectorAll('input[type="number"]').forEach((input) => {
+            const val = parseFloat(input.value);
+            if (!isNaN(val)) totalAmount += val;
+          });
 
           if (method === 'exact') {
             checkedSharers.forEach((sharer) => {
@@ -264,13 +238,16 @@
           }
         }
 
-        // 監聽金額或參與者變動，以更新均分時的提示
-        document.getElementById('amount').addEventListener('input', () => {
-          const selectedMethod = document.querySelector(
-            '.split-method-option.selected input[type="radio"]'
-          ).value;
-          if (selectedMethod === 'equally') updateSplitDetails('equally');
+        splitMethodOptions.forEach((option) => {
+          option.addEventListener('click', function () {
+            splitMethodOptions.forEach((opt) => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            this.querySelector('input[type="radio"]').checked = true;
+            updateSplitDetails(this.dataset.method);
+          });
         });
+
+        // 監聽金額或參與者變動，以更新均分時的提示
         sharersList.addEventListener('change', () => {
           const selectedMethod = document.querySelector(
             '.split-method-option.selected input[type="radio"]'
@@ -278,10 +255,80 @@
           if (selectedMethod === 'equally') updateSplitDetails('equally');
         });
 
+        // 取代 paidBySelect 相關，改為多代墊人
+        // 移除重複宣告
+        // const payersList = document.getElementById('payers-list');
+        // const addPayerBtn = document.getElementById('add-payer-btn');
+        let payerCount = 0;
+        function addPayerRow(selectedId = '', amount = '') {
+          payerCount++;
+          const div = document.createElement('div');
+          div.className = 'flex items-center space-x-2 mb-2';
+          // 產生成員下拉
+          const select = document.createElement('select');
+          select.name = `payer_id_${payerCount}`;
+          select.className = 'form-select !mb-0 !w-1/2';
+          groupMembers.forEach((member) => {
+            const option = document.createElement('option');
+            option.value = member.id;
+            option.textContent = member.name;
+            if (member.id === selectedId) option.selected = true;
+            select.appendChild(option);
+          });
+          // 金額輸入
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.name = `payer_amount_${payerCount}`;
+          input.className = 'form-input !mb-0 !w-1/3';
+          input.placeholder = '金額';
+          input.value = amount;
+          input.addEventListener('input', updatePayerTotal);
+          // 刪除按鈕（更小巧可愛的 emoji 圓形按鈕）
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className =
+            'ml-1 flex items-center justify-center rounded-full bg-pink-100 hover:bg-pink-300 transition w-6 h-6 shadow-sm text-base';
+          delBtn.innerHTML = '<span style="color:#ef4444;font-size:18px;">-</span>';
+          delBtn.title = '移除';
+          delBtn.style.lineHeight = '1';
+          delBtn.onclick = () => {
+            payersList.removeChild(div);
+            updatePayerTotal();
+          };
+          div.appendChild(select);
+          div.appendChild(input);
+          div.appendChild(delBtn);
+          payersList.appendChild(div);
+          updatePayerTotal();
+        }
+        // 預設一位代墊人
+        addPayerRow('user_self', '');
+        addPayerBtn.onclick = () => addPayerRow();
+
+        // 監聽所有代墊人金額輸入，更新總額
+        function updatePayerTotal() {
+          let total = 0;
+          payersList.querySelectorAll('input[type="number"]').forEach((input) => {
+            const val = parseFloat(input.value);
+            if (!isNaN(val)) total += val;
+          });
+          document.getElementById('paid-by-total').textContent = `代墊人總額：$${total}`;
+        }
+        // 頁面載入時先算一次
+        updatePayerTotal();
+
         form.addEventListener('submit', function (event) {
           event.preventDefault();
-          // 在此處處理表單提交邏輯
-          // 例如：收集數據，通過 LIFF API 發送到後端
+          // 收集多個代墊人
+          const payers = [];
+          payersList.querySelectorAll('div').forEach((row) => {
+            const select = row.querySelector('select');
+            const input = row.querySelector('input');
+            if (select && input && input.value) {
+              payers.push({ id: select.value, amount: parseFloat(input.value) });
+            }
+          });
+          // 其餘表單資料
           const formData = new FormData(form);
           const data = {};
           for (let [key, value] of formData.entries()) {
@@ -294,11 +341,9 @@
               data[key] = value;
             }
           }
+          data.payers = payers;
           console.log('表單數據:', data);
           alert('紀錄已儲存！（模擬）');
-          // 可以導航回清單頁面
-          // window.parent.document.getElementById('content-iframe').src = 'overview.html';
-          // window.parent.document.querySelector('.tab-item[data-page="overview.html"]').click();
         });
 
         // 初始化分攤方式詳細資訊 (預設為平均分攤)
