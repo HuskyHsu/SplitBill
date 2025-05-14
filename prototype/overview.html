@@ -10,99 +10,124 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <style>
+      /* --- iOS/Notion/Airbnb 現代化主視覺 --- */
       body {
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        background-color: #f9f9f9; /* Light background for content pages */
-        overscroll-behavior-y: contain;
-      }
-      .card {
-        background-color: white;
-        border-radius: 12px; /* iOS like rounded corners */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        margin-bottom: 20px;
-        padding: 0 16px;
+        font-family: 'SF Pro Display', 'Noto Sans TC', 'PingFang TC', Arial, sans-serif;
+        background: #f7f8fa;
+        color: #222;
+        margin: 0;
       }
       .header-title {
         display: flex;
         align-items: center;
         gap: 10px;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
-        color: #fff;
-        padding: 20px 16px 16px 16px;
-        background: linear-gradient(90deg, #4f8cff 0%, #6ed0fa 100%);
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        box-shadow: 0 4px 16px 0 rgba(79, 140, 255, 0.08);
-        margin-bottom: 18px;
-        position: relative;
+        color: #222;
+        padding: 18px 16px 12px 16px;
+        background: #fff;
+        border-bottom: 1px solid #ececec;
+        border-radius: 0 0 18px 18px;
+        box-shadow: 0 1px 0 0 #ececec;
+        margin-bottom: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
       .header-title i {
-        font-size: 26px;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.18);
+        font-size: 22px;
+        color: #4f8cff;
+        background: #eaf1ff;
         border-radius: 50%;
-        padding: 8px;
-        box-shadow: 0 2px 8px 0 rgba(79, 140, 255, 0.1);
-      }
-      .header-title i.fas.fa-list-alt {
-        font-size: 24px;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.18);
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0;
         margin-right: 2px;
       }
-      .section-title {
-        font-size: 20px;
+      .main-action-btn {
+        background: #4f8cff;
+        color: #fff;
+        border-radius: 12px;
+        font-size: 17px;
         font-weight: 600;
-        color: #1c1c1e;
-        margin-bottom: 12px;
+        padding: 13px 0;
+        border: none;
+        box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
+        transition: background 0.2s;
+        width: 100%;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .main-action-btn i {
+        font-size: 18px;
+        color: #fff;
+        background: none;
+        margin: 0;
+      }
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        margin-bottom: 18px;
+        padding: 18px 16px 12px 16px;
       }
       .list-item {
+        border-bottom: 1px solid #ececec;
+        padding: 13px 0 9px 0;
+        transition: background 0.15s;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 0; /* Reduced padding */
-        border-bottom: 1px solid #e5e5e5;
-        list-style-type: none; /* Ensures no list markers */
+        flex-direction: column;
+        gap: 2px;
       }
       .list-item:last-child {
         border-bottom: none;
       }
-      .item-description .primary-text {
-        /* This class might be less used in new structure but kept for other potential uses */
-        font-size: 16px;
-        color: #1c1c1e;
+      .list-item:hover {
+        background: #f0f6ff;
       }
-      .item-description .secondary-text {
-        /* This class might be less used in new structure but kept for other potential uses */
-        font-size: 13px;
-        color: #8e8e93; /* iOS secondary text color */
-      }
-      /* New primary and secondary text classes for direct use if needed */
       .primary-text {
         font-size: 16px;
-        color: #1c1c1e;
+        color: #222;
+        font-weight: 600;
+        letter-spacing: 0.01em;
       }
       .secondary-text {
         font-size: 13px;
-        color: #8e8e93; /* iOS secondary text color */
+        color: #8e8e93;
+        font-weight: 400;
       }
       .item-amount {
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 700;
+        color: #4f8cff;
+        letter-spacing: 0.01em;
       }
-      .amount-positive {
-        color: #34c759; /* iOS green */
+      .avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        margin-left: -6px;
       }
-      .amount-negative {
-        color: #ff3b30; /* iOS red */
+      .avatar.me {
+        border: 2px solid #4f8cff;
+        box-shadow: 0 0 0 2px #eaf1ff;
+      }
+      .tag-me {
+        background: #eaf1ff;
+        color: #4f8cff;
+        font-size: 12px;
+        border-radius: 8px;
+        padding: 2px 8px;
+        margin-left: 6px;
+        font-weight: 600;
       }
       .empty-state {
         text-align: center;
@@ -123,11 +148,7 @@
         清單
       </h1>
       <div class="mx-4">
-        <button
-          class="w-full my-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-        >
-          <i class="fas fa-calculator mr-2"></i>前往結算
-        </button>
+        <button class="main-action-btn"><i class="fas fa-calculator"></i>前往結算</button>
       </div>
       <div class="card mx-4">
         <!-- 第一筆紀錄 -->
@@ -143,29 +164,13 @@
             </div>
             <div class="mt-1">
               <p class="secondary-text truncate flex items-center">
-                代墊人：<img
-                  src="https://i.pravatar.cc/24?u=payerA"
-                  alt="Payer A"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                代墊人：<img src="https://i.pravatar.cc/24?u=payerA" alt="Payer A" class="avatar" />
               </p>
               <p class="secondary-text truncate flex items-center">
                 分攤人：
-                <img
-                  src="https://i.pravatar.cc/24?u=personA"
-                  alt="Person A"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
-                <img
-                  src="https://i.pravatar.cc/24?u=personB"
-                  alt="Person B"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
-                <img
-                  src="https://i.pravatar.cc/24?u=personC"
-                  alt="Person C"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                <img src="https://i.pravatar.cc/24?u=personA" alt="Person A" class="avatar" />
+                <img src="https://i.pravatar.cc/24?u=personB" alt="Person B" class="avatar" />
+                <img src="https://i.pravatar.cc/24?u=personC" alt="Person C" class="avatar" />
               </p>
             </div>
           </div>
@@ -184,24 +189,12 @@
             </div>
             <div class="mt-1">
               <p class="secondary-text truncate flex items-center">
-                代墊人：<img
-                  src="https://i.pravatar.cc/24?u=payerB"
-                  alt="Payer B"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                代墊人：<img src="https://i.pravatar.cc/24?u=payerB" alt="Payer B" class="avatar" />
               </p>
               <p class="secondary-text truncate flex items-center">
                 分攤人：
-                <img
-                  src="https://i.pravatar.cc/24?u=personD"
-                  alt="Person D"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
-                <img
-                  src="https://i.pravatar.cc/24?u=personE"
-                  alt="Person E"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                <img src="https://i.pravatar.cc/24?u=personD" alt="Person D" class="avatar" />
+                <img src="https://i.pravatar.cc/24?u=personE" alt="Person E" class="avatar" />
               </p>
             </div>
           </div>
@@ -220,24 +213,12 @@
             </div>
             <div class="mt-1">
               <p class="secondary-text truncate flex items-center">
-                代墊人：<img
-                  src="https://i.pravatar.cc/24?u=payerC"
-                  alt="Payer C"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                代墊人：<img src="https://i.pravatar.cc/24?u=payerC" alt="Payer C" class="avatar" />
               </p>
               <p class="secondary-text truncate flex items-center">
                 分攤人：
-                <img
-                  src="https://i.pravatar.cc/24?u=personF"
-                  alt="Person F"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
-                <img
-                  src="https://i.pravatar.cc/24?u=personG"
-                  alt="Person G"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                <img src="https://i.pravatar.cc/24?u=personF" alt="Person F" class="avatar" />
+                <img src="https://i.pravatar.cc/24?u=personG" alt="Person G" class="avatar" />
               </p>
             </div>
           </div>
@@ -256,24 +237,12 @@
             </div>
             <div class="mt-1">
               <p class="secondary-text truncate flex items-center">
-                代墊人：<img
-                  src="https://i.pravatar.cc/24?u=payerD"
-                  alt="Payer D"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                代墊人：<img src="https://i.pravatar.cc/24?u=payerD" alt="Payer D" class="avatar" />
               </p>
               <p class="secondary-text truncate flex items-center">
                 分攤人：
-                <img
-                  src="https://i.pravatar.cc/24?u=personH"
-                  alt="Person H"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
-                <img
-                  src="https://i.pravatar.cc/24?u=personI"
-                  alt="Person I"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                <img src="https://i.pravatar.cc/24?u=personH" alt="Person H" class="avatar" />
+                <img src="https://i.pravatar.cc/24?u=personI" alt="Person I" class="avatar" />
               </p>
             </div>
           </div>
@@ -292,24 +261,12 @@
             </div>
             <div class="mt-1">
               <p class="secondary-text truncate flex items-center">
-                代墊人：<img
-                  src="https://i.pravatar.cc/24?u=payerE"
-                  alt="Payer E"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                代墊人：<img src="https://i.pravatar.cc/24?u=payerE" alt="Payer E" class="avatar" />
               </p>
               <p class="secondary-text truncate flex items-center">
                 分攤人：
-                <img
-                  src="https://i.pravatar.cc/24?u=personJ"
-                  alt="Person J"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
-                <img
-                  src="https://i.pravatar.cc/24?u=personK"
-                  alt="Person K"
-                  class="w-6 h-6 rounded-full border-2 border-white -ml-1"
-                />
+                <img src="https://i.pravatar.cc/24?u=personJ" alt="Person J" class="avatar" />
+                <img src="https://i.pravatar.cc/24?u=personK" alt="Person K" class="avatar" />
               </p>
             </div>
           </div>
