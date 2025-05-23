@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "liff-cli serve --liff-id 1654570736-vdowM3V5 --url http://localhost:5174/"
   },
   "dependencies": {
     "@line/liff": "2.26.0",
