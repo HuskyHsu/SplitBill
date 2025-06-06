@@ -142,17 +142,17 @@ erDiagram
    groups {
         VARCHAR group_id PK
         VARCHAR group_name
-        UUID created_by_profile_id "FK toprofiles.id"
+        UUID created_by_profile_id "FK to profiles.id"
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
     }
 
    group_members {
         UUID group_member_id PK
-        VARCHAR group_id "FK togroups.group_id"
-        UUID profile_id "FK toprofiles.id"
+        VARCHAR group_id "FK to groups.group_id"
+        UUID profile_id "FK to profiles.id"
         TIMESTAMPTZ joined_at
-        -- UNIQUE (group_id, profile_id)
+        %% UNIQUE (group_id, profile_id)
     }
 
    bills {
@@ -162,8 +162,8 @@ erDiagram
         VARCHAR currency "NOT NULL, DEFAULT 'TWD'"
         TIMESTAMPTZ transaction_datetime "NOT NULL"
         VARCHAR split_method "NOT NULL"
-        VARCHAR group_id "NOT NULL, FK togroups.group_id"
-        UUID created_by_profile_id "NOT NULL, FK toprofiles.id"
+        VARCHAR group_id "NOT NULL, FK to groups.group_id"
+        UUID created_by_profile_id "NOT NULL, FK to profiles.id"
         UUID settlement_batch_uuid "NULLABLE, for internal_transfer"
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
@@ -171,16 +171,16 @@ erDiagram
 
    bill_payments {
         UUID bill_payment_id PK
-        UUID bill_id "FK tobills.bill_id"
-        UUID payer_profile_id "FK toprofiles.id"
+        UUID bill_id "FK to bills.bill_id"
+        UUID payer_profile_id "FK to profiles.id"
         DECIMAL amount_paid "NOT NULL"
         TIMESTAMPTZ paid_datetime "NOT NULL"
     }
 
    bill_sharers {
         UUID bill_sharer_id PK
-        UUID bill_id "FK tobills.bill_id"
-        UUID profile_id "FK toprofiles.id"
+        UUID bill_id "FK to bills.bill_id"
+        UUID profile_id "FK to profiles.id"
         DECIMAL share_percentage "NULLABLE"
         DECIMAL share_amount "NULLABLE"
         INTEGER share_units "NULLABLE"
@@ -188,7 +188,7 @@ erDiagram
         UUID settlement_batch_uuid "NULLABLE, marks if settled"
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
-        -- UNIQUE (bill_id, profile_id)
+        %% UNIQUE (bill_id, profile_id)
     }
 ```
 
