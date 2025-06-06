@@ -119,18 +119,18 @@
 
 ```mermaid
 erDiagram
-    auth.users ||--o{ public.profiles : "has one"
-    public.profiles ||--o{ public.group_members : "participates in"
-    public.groups ||--o{ public.group_members : "has"
-    public.profiles ||--o{ public.bills : "created by"
-    public.groups ||--o{ public.bills : "belongs to"
-    public.bills ||--o{ public.bill_payments : "has payments from"
-    public.profiles ||--o{ public.bill_payments : "paid by"
-    public.bills ||--o{ public.bill_sharers : "is shared by"
-    public.profiles ||--o{ public.bill_sharers : "shares"
+   users ||--o{profiles : "has one"
+   profiles ||--o{group_members : "participates in"
+   groups ||--o{group_members : "has"
+   profiles ||--o{bills : "created by"
+   groups ||--o{bills : "belongs to"
+   bills ||--o{bill_payments : "has payments from"
+   profiles ||--o{bill_payments : "paid by"
+   bills ||--o{bill_sharers : "is shared by"
+   profiles ||--o{bill_sharers : "shares"
 
-    public.profiles {
-        UUID id PK "FK to auth.users.id"
+   profiles {
+        UUID id PK "FK to users.id"
         VARCHAR line_user_id "UNIQUE, NOT NULL"
         VARCHAR display_name "NOT NULL"
         TEXT picture_url
@@ -139,48 +139,48 @@ erDiagram
         TIMESTAMPTZ updated_at
     }
 
-    public.groups {
+   groups {
         VARCHAR group_id PK
         VARCHAR group_name
-        UUID created_by_profile_id "FK to public.profiles.id"
+        UUID created_by_profile_id "FK toprofiles.id"
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
     }
 
-    public.group_members {
+   group_members {
         UUID group_member_id PK
-        VARCHAR group_id "FK to public.groups.group_id"
-        UUID profile_id "FK to public.profiles.id"
+        VARCHAR group_id "FK togroups.group_id"
+        UUID profile_id "FK toprofiles.id"
         TIMESTAMPTZ joined_at
         -- UNIQUE (group_id, profile_id)
     }
 
-    public.bills {
+   bills {
         UUID bill_id PK
         VARCHAR bill_name "NOT NULL"
         DECIMAL total_amount "NOT NULL"
         VARCHAR currency "NOT NULL, DEFAULT 'TWD'"
         TIMESTAMPTZ transaction_datetime "NOT NULL"
         VARCHAR split_method "NOT NULL"
-        VARCHAR group_id "NOT NULL, FK to public.groups.group_id"
-        UUID created_by_profile_id "NOT NULL, FK to public.profiles.id"
+        VARCHAR group_id "NOT NULL, FK togroups.group_id"
+        UUID created_by_profile_id "NOT NULL, FK toprofiles.id"
         UUID settlement_batch_uuid "NULLABLE, for internal_transfer"
         TIMESTAMPTZ created_at
         TIMESTAMPTZ updated_at
     }
 
-    public.bill_payments {
+   bill_payments {
         UUID bill_payment_id PK
-        UUID bill_id "FK to public.bills.bill_id"
-        UUID payer_profile_id "FK to public.profiles.id"
+        UUID bill_id "FK tobills.bill_id"
+        UUID payer_profile_id "FK toprofiles.id"
         DECIMAL amount_paid "NOT NULL"
         TIMESTAMPTZ paid_datetime "NOT NULL"
     }
 
-    public.bill_sharers {
+   bill_sharers {
         UUID bill_sharer_id PK
-        UUID bill_id "FK to public.bills.bill_id"
-        UUID profile_id "FK to public.profiles.id"
+        UUID bill_id "FK tobills.bill_id"
+        UUID profile_id "FK toprofiles.id"
         DECIMAL share_percentage "NULLABLE"
         DECIMAL share_amount "NULLABLE"
         INTEGER share_units "NULLABLE"
